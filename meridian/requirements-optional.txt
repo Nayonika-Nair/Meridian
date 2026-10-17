@@ -1,0 +1,3 @@
+# Optional extras. The app and tests run without any of these.
+regex>=2024.5          # gives regex evaluation a real per-call timeout (otherwise bounded by chunking + deadlines)
+opencv-python-headless>=4.9   # local face-region detection (also needs a cascade/YuNet model file; see README)

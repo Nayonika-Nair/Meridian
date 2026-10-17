@@ -1,0 +1,137 @@
+{
+ "caveats": [
+  "Synthetic scenarios and assumed utility/cost weights: results say nothing about real documents or vendors.",
+  "The bandit is myopic and only tightens the authoritative policy; it cannot loosen any rule.",
+  "The unconstrained ablation exists to show constraint violations; it is never used by the advisor."
+ ],
+ "eval_seeds": [
+  100000,
+  100399
+ ],
+ "model_version": "bandit-1",
+ "n_eval_sessions": 400,
+ "n_train_sessions": 1500,
+ "results": {
+  "bandit_constrained": {
+   "constraint_violations": 0,
+   "decisions": {
+    "AUTO": 0.379,
+    "BLOCK": 0.32183333333333336,
+    "REVIEW": 0.04683333333333333,
+    "STRICT": 0.25233333333333335
+   },
+   "mean_cost": 7.927104695776423,
+   "mean_reward": 0.4073801668563974,
+   "mean_utility": 0.4549427950310559,
+   "reward_ci95_over_sessions": [
+    0.3889284114342591,
+    0.4236024786519598
+   ],
+   "reward_vs_rule_based": 0.0025957525155690386,
+   "steps": 6000,
+   "violating_steps": 0
+  },
+  "bandit_unconstrained_ablation": {
+   "constraint_violations": 2347,
+   "decisions": {
+    "AUTO": 0.30533333333333335,
+    "BLOCK": 0.3318333333333333,
+    "REVIEW": 0.076,
+    "STRICT": 0.28683333333333333
+   },
+   "mean_cost": 12.018786150672842,
+   "mean_reward": 0.4674061650835406,
+   "mean_utility": 0.5395188819875777,
+   "reward_ci95_over_sessions": [
+    0.44836011735545644,
+    0.48317407766341147
+   ],
+   "reward_vs_rule_based": 0.06262175074271226,
+   "steps": 6000,
+   "violating_steps": 1614
+  },
+  "random_among_allowed": {
+   "constraint_violations": 0,
+   "decisions": {
+    "AUTO": 0.35833333333333334,
+    "BLOCK": 0.32183333333333336,
+    "REVIEW": 0.0515,
+    "STRICT": 0.2683333333333333
+   },
+   "mean_cost": 9.12836029792752,
+   "mean_reward": 0.3836294344857268,
+   "mean_utility": 0.4383995962732919,
+   "reward_ci95_over_sessions": [
+    0.3667102539123025,
+    0.39735705104489405
+   ],
+   "reward_vs_rule_based": -0.021154979855101563,
+   "steps": 6000,
+   "violating_steps": 0
+  },
+  "rule_based_policy (authoritative)": {
+   "constraint_violations": 0,
+   "decisions": {
+    "AUTO": 0.32,
+    "BLOCK": 0.32216666666666666,
+    "REVIEW": 0.06766666666666667,
+    "STRICT": 0.2901666666666667
+   },
+   "mean_cost": 12.201226932766634,
+   "mean_reward": 0.40478441434082835,
+   "mean_utility": 0.47799177593742814,
+   "reward_ci95_over_sessions": [
+    0.38602543150991936,
+    0.4214846961796511
+   ],
+   "reward_vs_rule_based": 0.0,
+   "steps": 6000,
+   "violating_steps": 0
+  },
+  "strict_static (max tightening)": {
+   "constraint_violations": 0,
+   "decisions": {
+    "AUTO": 0.38516666666666666,
+    "BLOCK": 0.32183333333333336,
+    "REVIEW": 0.044,
+    "STRICT": 0.249
+   },
+   "mean_cost": 7.186892146078154,
+   "mean_reward": 0.35562999978053594,
+   "mean_utility": 0.3987513526570049,
+   "reward_ci95_over_sessions": [
+    0.3426889365262403,
+    0.3676765259605825
+   ],
+   "reward_vs_rule_based": -0.0491544145602924,
+   "steps": 6000,
+   "violating_steps": 0
+  }
+ },
+ "reward_config": {
+  "action_utility": {
+   "KEEP": 1.0,
+   "MASK": 0.7,
+   "REDACT": 0.0
+  },
+  "cost_scale": 50.0,
+  "cost_weight": 0.3,
+  "field_utility": {
+   "optional": 0.3,
+   "required": 1.0
+  },
+  "outcome_utility": {
+   "AUTO": 1.0,
+   "BLOCK": 0.0,
+   "REVIEW": 0.4,
+   "STRICT": 1.0
+  },
+  "session_len": 15
+ },
+ "seed": 0,
+ "train_seeds": [
+  0,
+  1499
+ ],
+ "verdict": "Constrained bandit is statistically indistinguishable from the rule-based policy on mean reward (95% CI over eval sessions vs the baseline mean)."
+}

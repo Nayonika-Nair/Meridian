@@ -1,0 +1,74 @@
+{
+  "_note": "Analyst-editable. Fields are the data elements a vendor task may touch; 'entity' links a field to a PII type scored in budget.WEIGHTS (null = business field, no PII weight). Task field lists are policy judgements, not facts about the vendors.",
+  "fields": {
+    "full_name":    {"entity": "PERSON",  "label": "Full name"},
+    "gov_id":       {"entity": "GOV_ID",  "label": "Government / tax ID"},
+    "bank_account": {"entity": "BANK",    "label": "Bank account number"},
+    "address":      {"entity": "ADDRESS", "label": "Postal address"},
+    "email":        {"entity": "EMAIL",   "label": "Email address"},
+    "phone":        {"entity": "PHONE",   "label": "Phone number"},
+    "employee_id":  {"entity": "EMP_ID",  "label": "Employee ID"},
+    "txn_date":     {"entity": null,      "label": "Transaction date"},
+    "txn_amount":   {"entity": null,      "label": "Transaction amount"},
+    "txn_type":     {"entity": null,      "label": "Transaction type"},
+    "balance":      {"entity": null,      "label": "Account balance"},
+    "payment_ref":  {"entity": null,      "label": "Payment reference"}
+  },
+  "tasks": {
+    "statement_summary": {
+      "label": "Generate a customer statement summary",
+      "required": ["txn_date", "txn_amount", "txn_type"],
+      "optional": ["balance", "payment_ref"]
+    },
+    "payment_routing": {
+      "label": "Route / reconcile an inbound real-time payment",
+      "required": ["txn_amount", "payment_ref", "bank_account", "full_name"],
+      "optional": ["txn_date", "txn_type"]
+    },
+    "statement_mailing": {
+      "label": "Print and mail a customer statement",
+      "required": ["full_name", "address", "txn_date", "txn_amount", "txn_type", "balance"],
+      "optional": ["payment_ref"]
+    },
+    "tax_document": {
+      "label": "Produce a tax document",
+      "required": ["full_name", "address", "gov_id", "txn_amount"],
+      "optional": []
+    },
+    "batch_scheduling": {
+      "label": "Operate batch scheduling (no customer data needed)",
+      "required": [],
+      "optional": ["employee_id"]
+    }
+  },
+  "sample_documents": {
+    "customer_statement.pdf": {
+      "fields_present": ["full_name", "address", "email", "phone", "bank_account", "gov_id", "txn_date", "txn_amount", "txn_type", "balance"],
+      "entities": [
+        {"type": "PERSON", "confidence": 0.99}, {"type": "PERSON", "confidence": 0.97}, {"type": "PERSON", "confidence": 0.96},
+        {"type": "EMAIL", "confidence": 0.98}, {"type": "EMAIL", "confidence": 0.95},
+        {"type": "PHONE", "confidence": 0.93},
+        {"type": "ADDRESS", "confidence": 0.94},
+        {"type": "BANK", "confidence": 0.97},
+        {"type": "EMP_ID", "confidence": 0.90}
+      ]
+    },
+    "rtp_payment_file.xml": {
+      "fields_present": ["full_name", "bank_account", "payment_ref", "txn_amount", "txn_date"],
+      "entities": [
+        {"type": "PERSON", "confidence": 0.99}, {"type": "PERSON", "confidence": 0.98},
+        {"type": "BANK", "confidence": 0.99}, {"type": "BANK", "confidence": 0.97}
+      ]
+    },
+    "tax_form_1099.pdf": {
+      "fields_present": ["full_name", "address", "gov_id", "txn_amount"],
+      "entities": [
+        {"type": "PERSON", "confidence": 0.99}, {"type": "ADDRESS", "confidence": 0.96}, {"type": "GOV_ID", "confidence": 0.98}
+      ]
+    },
+    "job_schedule_export.csv": {
+      "fields_present": ["employee_id", "txn_date"],
+      "entities": [{"type": "EMP_ID", "confidence": 0.95}]
+    }
+  }
+}
